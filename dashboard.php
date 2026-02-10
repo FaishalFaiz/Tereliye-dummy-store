@@ -52,14 +52,31 @@ if (isset($_GET['add_wishlist'])) {
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item me-lg-3 my-2 my-lg-0">
-                        <span class="text-white">Halo, <b><?= $_SESSION['nama'] ?></b>! 👋</span>
-                    </li>
+                        <span class="text-white">
+                            Halo, <b><?= $_SESSION['nama'] ?></b>
+
+                            <?php if ($_SESSION['role'] == 'admin') : ?>
+                                <small class="fst-italic text-warning">(Admin)</small>
+                            <?php endif; ?>
+
+                            ! 👋
+                        </span>
+                    </li>   
 
                     <li class="nav-item ms-lg-2 my-3 my-lg-0">
                         <a href="wishlist.php" class="btn btn-warning btn-sm px-4 rounded-pill fw-bold">
                             <i class="bi bi-heart-fill me-1"></i> Wishlist
                         </a>
                     </li>
+
+                    <?php
+                    if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') : ?>
+                        <li class="nav-item ms-lg-2 my-3 my-lg-0">
+                            <a href="admin/dashboard.php" class="btn btn-outline-light btn-sm px-4 rounded-pill">
+                                Admin Panel
+                            </a>
+                        </li>
+                    <?php endif; ?>
 
                     <li class="nav-item ms-lg-2 my-2 my-lg-0">
                         <a href="logout.php" class="btn btn-outline-light btn-sm px-4 rounded-pill">

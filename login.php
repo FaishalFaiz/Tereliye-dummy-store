@@ -2,6 +2,15 @@
 session_start();
 include 'koneksi.php';
 
+if (isset($_SESSION['user_id'])) {
+    if ($_SESSION['role'] == 'admin') {
+        header("Location: admin/dashboard.php");
+    } else {
+        header("Location: dashboard.php");
+    }
+    exit;
+}
+
 if (isset($_POST['login'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -15,11 +24,24 @@ if (isset($_POST['login'])) {
 
         // 3. Cek passwordnya cocok gak sama hash di database
         if (password_verify($password, $row['password'])) {
+
+            session_unset();
+            session_regenerate_id(true);
+
             // Password bener! Set Session
             $_SESSION['user_id'] = $row['id'];
             $_SESSION['nama'] = $row['nama_lengkap'];
 
-            header("Location: dashboard.php");
+            // Cek role user
+            if ($row['role'] === 'admin') {
+                $_SESSION['role'] = 'admin';
+                header("Location: admin/dashboard.php");
+                exit;
+            } else {
+                $_SESSION['role'] = 'user';
+                header("Location: dashboard.php");
+            }
+
             exit;
         }
     }
