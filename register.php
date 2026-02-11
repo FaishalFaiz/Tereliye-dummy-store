@@ -1,4 +1,5 @@
 <?php
+session_start();
 include 'koneksi.php';
 
 if (isset($_SESSION['user_id'])) {
@@ -11,8 +12,8 @@ if (isset($_SESSION['user_id'])) {
 }
 
 if (isset($_POST['register'])) {
-    $nama = $_POST['nama'];
-    $username = $_POST['username'];
+    $nama = mysqli_real_escape_string($conn, $_POST['nama']);
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
     $password = $_POST['password'];
 
     // 🔒 INI DIA KUNCINYA: Hashing Password
@@ -39,12 +40,14 @@ if (isset($_POST['register'])) {
 
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <title>Daftar Akun - Tere Liye Store</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" href="webicon.svg" sizes="32x32" />
 
 </head>
+
 <body class="bg-light d-flex align-items-center justify-content-center" style="height: 100vh;">
 
     <div class="card shadow p-4 mx-3" style="max-width: 600px; width: 100%; border-radius: 15px;">
@@ -71,4 +74,5 @@ if (isset($_POST['register'])) {
     </div>
 
 </body>
+
 </html>
